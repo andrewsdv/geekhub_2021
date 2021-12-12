@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <ImageView
+        android:id="@+id/actorImageView"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_width="150dp"
+        android:layout_height="200dp"/>
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/textContainer"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/actorImageView"
+        app:layout_constraintStart_toStartOf="@+id/actorImageView"
+        app:layout_constraintEnd_toEndOf="@+id/actorImageView"
+        android:background="#00FFFFFF"
+        android:layout_marginTop="-5dp">
+        <TextView
+            android:id="@+id/actorNameTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="@+id/textContainer"
+            app:layout_constraintEnd_toEndOf="@+id/textContainer"
+            app:layout_constraintTop_toTopOf="@+id/textContainer"
+            android:textSize="14sp"
+            android:textAlignment="center"
+            android:layout_marginTop="5dp"
+            android:gravity="center_horizontal" />
+        <TextView
+            android:id="@+id/actorRoleTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            app:layout_constraintStart_toStartOf="@+id/textContainer"
+            app:layout_constraintEnd_toEndOf="@+id/textContainer"
+            app:layout_constraintTop_toBottomOf="@+id/actorNameTextView"
+            android:textSize="12sp"
+            />
+        <TextView
+            android:id="@+id/departmentTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            app:layout_constraintStart_toStartOf="@+id/textContainer"
+            app:layout_constraintEnd_toEndOf="@+id/textContainer"
+            app:layout_constraintTop_toBottomOf="@+id/actorRoleTextView"
+            android:textSize="12sp"
+            />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
