@@ -33,7 +33,7 @@ class PosterFragment(private val listener: PosterLoader) : Fragment(R.layout.pos
     }
 
     private fun setMovieListObserver() {
-        viewModel.movieList.observe(this, { t -> t?.results?.let { adapter.setList(it) } })
+        viewModel.movieList.observe(this, { movieList -> movieList?.results?.let { adapter.setList(it) } })
     }
 
     private fun configRecyclerView() {
