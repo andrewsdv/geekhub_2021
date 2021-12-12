@@ -17,7 +17,7 @@
         android:id="@+id/filmBackgroundImageView"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:tint="#C8000000"
+        android:tint="@color/alpha_dark"
         app:layout_constraintBottom_toBottomOf="@+id/infoDataContainer"
         app:layout_constraintEnd_toEndOf="@+id/infoDataContainer"
         app:layout_constraintStart_toStartOf="@+id/infoDataContainer"
