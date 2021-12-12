@@ -41,7 +41,8 @@ class MovieDetailsFragment(private val moviePreview: MoviePreview) : Fragment(R.
     }
 
     private fun fetchMovieDetails() {
-        viewModel.getMovieDetails(moviePreview.id).observe(this, { t -> t?.let { updateUI(it) } })
+        viewModel.getMovieDetails(moviePreview.id).observe(this,
+            { movieDetails -> movieDetails?.let { updateUI(it) } })
     }
 
     private fun updateUI(details: MovieDetails) {
@@ -89,6 +90,6 @@ class MovieDetailsFragment(private val moviePreview: MoviePreview) : Fragment(R.
         }
 
         viewModel.fetchActorDetails(moviePreview.id).observe(this,
-            { t -> t?.let { adapter.setList(it.cast) } })
+            { movieCast -> movieCast?.let { adapter.setList(it.cast) } })
     }
 }

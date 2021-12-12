@@ -22,7 +22,7 @@ class ActorAdapter : RecyclerView.Adapter<ActorAdapter.ActorViewHolder>() {
         RecyclerView.ViewHolder(binding.root) {
         fun bind(actor: Actor) {
                 Glide.with(itemView)
-                    .load("https://image.tmdb.org/t/p/w500" + list[position].photoAddress)
+                    .load("https://image.tmdb.org/t/p/w500" + actor.photoAddress)
                     .override(400, 800)
                     .transform(RoundedCorners(16))
                     .error(R.drawable.no_resource_icon)
