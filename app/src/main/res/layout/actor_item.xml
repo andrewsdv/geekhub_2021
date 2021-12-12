@@ -16,7 +16,6 @@
         app:layout_constraintTop_toBottomOf="@+id/actorImageView"
         app:layout_constraintStart_toStartOf="@+id/actorImageView"
         app:layout_constraintEnd_toEndOf="@+id/actorImageView"
-        android:background="#00FFFFFF"
         android:layout_marginTop="-5dp">
         <TextView
             android:id="@+id/actorNameTextView"

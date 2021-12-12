@@ -1,5 +1,6 @@
 package com.example.hw6.client
 
+import com.example.hw6.BuildConfig
 import com.example.hw6.service.MovieInterceptor
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
@@ -9,8 +10,6 @@ import retrofit2.converter.moshi.MoshiConverterFactory
 import java.util.concurrent.TimeUnit
 
 class ApiClient {
-    private val movieBaseUrl = "https://api.themoviedb.org/3/"
-
     private val moshiBuilder = Moshi.Builder()
         .add(KotlinJsonAdapterFactory())
         .build()
@@ -26,6 +25,6 @@ class ApiClient {
         addInterceptor(interceptor)
     }.build()
 
-    val retrofit = Retrofit.Builder().baseUrl(movieBaseUrl)
+    val retrofit = Retrofit.Builder().baseUrl(BuildConfig.BASE_URL)
         .addConverterFactory(moshiConverterFactory).client(client).build()
 }
