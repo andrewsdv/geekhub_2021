@@ -1,7 +1,6 @@
 package com.example.hw6.viewmodel
 
 import android.util.Log
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.hw6.client.ApiClient
 import com.example.hw6.model.MovieCast

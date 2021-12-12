@@ -17,7 +17,7 @@ import com.example.hw6.R
 import com.example.hw6.adapter.ActorAdapter
 import com.example.hw6.databinding.DetailsFragmentBinding
 import com.example.hw6.decorator.ActorDecorator
-import com.example.hw6.helper.ProgressBarHelper
+import com.example.hw6.helper.getProgressDrawableColor
 import com.example.hw6.model.MovieDetails
 import com.example.hw6.model.MoviePreview
 import com.example.hw6.viewmodel.MovieViewModel
@@ -58,7 +58,7 @@ class MovieDetailsFragment(private val moviePreview: MoviePreview) : Fragment(R.
                     AppCompatResources.getDrawable(it1, R.drawable.progress_circle) } as LayerDrawable?
 
                 unwrappedDrawable?.let { drawable ->
-                    DrawableCompat.setTint(drawable, ProgressBarHelper.getProgressDrawableColor(it))
+                    DrawableCompat.setTint(drawable, getProgressDrawableColor(it))
 
                     drawable.findDrawableByLayerId(R.id.progressBackground)?.let { it1 ->
                          DrawableCompat.setTint(it1, Color.BLACK)

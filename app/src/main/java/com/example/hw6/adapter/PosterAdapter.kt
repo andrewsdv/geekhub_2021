@@ -11,7 +11,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.example.hw6.R
 import com.example.hw6.databinding.PosterItemBinding
-import com.example.hw6.helper.ProgressBarHelper
+import com.example.hw6.helper.getProgressDrawableColor
 import com.example.hw6.model.MoviePreview
 
 interface PosterLoader {
@@ -47,7 +47,7 @@ class PosterAdapter(private val listener: PosterLoader)
                                 as LayerDrawable?
 
                     unwrappedDrawable?.let {
-                        DrawableCompat.setTint(it, ProgressBarHelper.getProgressDrawableColor(preview.rate))
+                        DrawableCompat.setTint(it, getProgressDrawableColor(preview.rate))
 
                         it.findDrawableByLayerId(R.id.progressBackground)?.let {
                             DrawableCompat.setTint(it, Color.BLACK)
