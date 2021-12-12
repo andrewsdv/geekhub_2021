@@ -17,7 +17,7 @@ import com.example.hw6.R
 import com.example.hw6.adapter.ActorAdapter
 import com.example.hw6.databinding.DetailsFragmentBinding
 import com.example.hw6.decorator.ActorDecorator
-import com.example.hw6.helper.getProgressDrawableColor
+import com.example.hw6.helper.getProgressDrawable
 import com.example.hw6.model.MovieDetails
 import com.example.hw6.model.MoviePreview
 import com.example.hw6.viewmodel.MovieViewModel
@@ -51,19 +51,13 @@ class MovieDetailsFragment(private val moviePreview: MoviePreview) : Fragment(R.
             filmDescriptionView.text = details.overview
             filmCategoriesTextView.text = details.genres.joinToString { it.name }
 
-            details.rate.let {
+            details.rate?.let {
                 val intRate = (it * 10).toInt()
 
                 val unwrappedDrawable = context?.let { it1 ->
                     AppCompatResources.getDrawable(it1, R.drawable.progress_circle) } as LayerDrawable?
 
-                unwrappedDrawable?.let { drawable ->
-                    DrawableCompat.setTint(drawable, getProgressDrawableColor(it))
-
-                    drawable.findDrawableByLayerId(R.id.progressBackground)?.let { it1 ->
-                         DrawableCompat.setTint(it1, Color.BLACK)
-                    }
-                }
+                unwrappedDrawable?.let { drawable -> getProgressDrawable(intRate, drawable) }
 
                 percentsTextView.text = String.format(resources.getString(R.string.percents), (intRate.toString()))
                 filmRateProgressBar.progressDrawable = unwrappedDrawable

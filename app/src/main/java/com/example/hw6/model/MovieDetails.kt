@@ -12,5 +12,5 @@ data class MovieDetails(
     val overview: String?,
     val genres: List<Genre>,
     @Json(name="vote_average")
-    val rate: Double
+    val rate: Double?
 )

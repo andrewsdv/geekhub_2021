@@ -1,17 +1,15 @@
 package com.example.hw6.adapter
 
-import android.graphics.Color
 import android.graphics.drawable.LayerDrawable
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.appcompat.content.res.AppCompatResources
-import androidx.core.graphics.drawable.DrawableCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.example.hw6.R
 import com.example.hw6.databinding.PosterItemBinding
-import com.example.hw6.helper.getProgressDrawableColor
+import com.example.hw6.helper.getProgressDrawable
 import com.example.hw6.model.MoviePreview
 
 interface PosterLoader {
@@ -39,20 +37,14 @@ class PosterAdapter(private val listener: PosterLoader)
                     listener.onPosterClicked(preview)
                 }
 
-                preview.rate.let {
+                preview.rate?.let {
                     val intRate = (it * 10).toInt()
 
                     val unwrappedDrawable =
                         AppCompatResources.getDrawable(itemView.context, R.drawable.progress_circle)
                                 as LayerDrawable?
 
-                    unwrappedDrawable?.let {
-                        DrawableCompat.setTint(it, getProgressDrawableColor(preview.rate))
-
-                        it.findDrawableByLayerId(R.id.progressBackground)?.let {
-                            DrawableCompat.setTint(it, Color.BLACK)
-                        }
-                    }
+                    unwrappedDrawable?.let { drawable -> getProgressDrawable(intRate, drawable) }
                     binding.apply {
                         percentsTextView.text = String.format(itemView.resources.getString(R.string.percents), (intRate.toString()))
                         filmRateProgressBar.progressDrawable = unwrappedDrawable

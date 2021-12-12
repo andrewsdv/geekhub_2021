@@ -8,6 +8,7 @@
         style="@style/Widget.MaterialComponents.CircularProgressIndicator"
         android:layout_width="80dp"
         android:layout_height="80dp"
+        android:progress="0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         android:translationZ="1dp" />

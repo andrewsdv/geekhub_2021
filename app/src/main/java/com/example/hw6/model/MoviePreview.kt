@@ -9,5 +9,5 @@ data class MoviePreview(
     @Json(name="poster_path")
     val posterAddress: String?,
     @Json(name="vote_average")
-    val rate: Double
+    val rate: Double?
 )
