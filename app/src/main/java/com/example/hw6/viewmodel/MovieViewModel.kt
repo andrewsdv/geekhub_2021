@@ -4,6 +4,8 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.hw6.model.MovieCast
+import com.example.hw6.model.MovieDetails
 import com.example.hw6.model.MovieList
 
 class MovieViewModel : ViewModel() {
@@ -18,5 +20,11 @@ class MovieViewModel : ViewModel() {
         Log.e("list", _movieList.value.toString())
     }
 
+    fun getMovieDetails(id: Int) : LiveData<MovieDetails> {
+        return repository.fetchMovieDetails(id)
+    }
 
+    fun fetchActorDetails(id: Int) : LiveData<MovieCast> {
+        return repository.fetchActorDetails(id)
+    }
 }

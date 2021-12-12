@@ -3,7 +3,6 @@ package com.example.hw6.fragment
 import android.graphics.Color
 import android.graphics.drawable.LayerDrawable
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,24 +15,17 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.example.hw6.R
 import com.example.hw6.adapter.ActorAdapter
-import com.example.hw6.client.ApiClient
 import com.example.hw6.databinding.DetailsFragmentBinding
 import com.example.hw6.decorator.ActorDecorator
 import com.example.hw6.helper.ProgressBarHelper
-import com.example.hw6.model.MovieCast
 import com.example.hw6.model.MovieDetails
 import com.example.hw6.model.MoviePreview
-import com.example.hw6.service.MovieService
 import com.example.hw6.viewmodel.MovieViewModel
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 
 
 class MovieDetailsFragment(private val moviePreview: MoviePreview) : Fragment(R.layout.details_fragment) {
     private val viewModel: MovieViewModel by viewModels()
     private lateinit var binding: DetailsFragmentBinding
-    private val movieService = ApiClient().retrofit.create(MovieService::class.java)
     private val adapter = ActorAdapter()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -45,30 +37,14 @@ class MovieDetailsFragment(private val moviePreview: MoviePreview) : Fragment(R.
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         fetchMovieDetails()
-        fetchActorDetails()
         configActorRecycler()
     }
 
     private fun fetchMovieDetails() {
-        movieService.getMovieDetails(moviePreview.id).enqueue(object : Callback<MovieDetails> {
-            override fun onResponse(call: Call<MovieDetails>, response: Response<MovieDetails>) {
-                if (response.isSuccessful) {
-                    val details = response.body()
-
-                    details?.let {
-                        updateUI(it)
-                    }
-                }
-            }
-
-            override fun onFailure(call: Call<MovieDetails>, t: Throwable) {
-                Log.e("Details", t.message.toString())
-                return
-            }
-        })
+        viewModel.getMovieDetails(moviePreview.id).observe(this, { t -> t?.let { updateUI(it) } })
     }
 
-    fun updateUI(details: MovieDetails) {
+    private fun updateUI(details: MovieDetails) {
         binding.apply {
 
             filmNameTextView.text = details.movieName
@@ -111,27 +87,14 @@ class MovieDetailsFragment(private val moviePreview: MoviePreview) : Fragment(R.
         }
     }
 
-
-    private fun fetchActorDetails() {
-        movieService.getMovieCast(moviePreview.id).enqueue(object : Callback<MovieCast> {
-            override fun onResponse(call: Call<MovieCast>, response: Response<MovieCast>) {
-                if (response.isSuccessful) {
-                    response.body()?.let { adapter.setList(it.cast) }
-                }
-            }
-
-            override fun onFailure(call: Call<MovieCast>, t: Throwable) {
-                Log.e("Actor", t.message.toString())
-            }
-
-        })
-    }
-
     private fun configActorRecycler() {
         binding.actorsRecycler.apply {
             layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
             this.adapter = this@MovieDetailsFragment.adapter
             addItemDecoration(ActorDecorator(20))
         }
+
+        viewModel.fetchActorDetails(moviePreview.id).observe(this,
+            { t -> t?.let { adapter.setList(it.cast) } })
     }
 }
