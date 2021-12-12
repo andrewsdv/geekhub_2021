@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.graphics.drawable.DrawableCompat
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
@@ -23,12 +24,14 @@ import com.example.hw6.model.MovieCast
 import com.example.hw6.model.MovieDetails
 import com.example.hw6.model.MoviePreview
 import com.example.hw6.service.MovieService
+import com.example.hw6.viewmodel.MovieViewModel
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
 
 class MovieDetailsFragment(private val moviePreview: MoviePreview) : Fragment(R.layout.details_fragment) {
+    private val viewModel: MovieViewModel by viewModels()
     private lateinit var binding: DetailsFragmentBinding
     private val movieService = ApiClient().retrofit.create(MovieService::class.java)
     private val adapter = ActorAdapter()

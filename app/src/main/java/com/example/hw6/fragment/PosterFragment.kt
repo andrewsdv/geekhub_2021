@@ -1,7 +1,6 @@
 package com.example.hw6.fragment
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,21 +10,13 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.hw6.R
 import com.example.hw6.adapter.PosterAdapter
 import com.example.hw6.adapter.PosterLoader
-import com.example.hw6.client.ApiClient
 import com.example.hw6.databinding.PosterFragmentBinding
 import com.example.hw6.decorator.PosterDecorator
-import com.example.hw6.model.MovieList
-import com.example.hw6.service.MovieService
 import com.example.hw6.viewmodel.MovieViewModel
-import retrofit2.Call
-import retrofit2.Response
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
 
 class PosterFragment(private val listener: PosterLoader) : Fragment(R.layout.poster_fragment) {
     private val viewModel: MovieViewModel by viewModels()
-    private val movieService = ApiClient().retrofit.create(MovieService::class.java)
-    private var movieList = MovieList(listOf())
     private lateinit var binding: PosterFragmentBinding
     private val adapter = PosterAdapter(listener)
 
@@ -41,7 +32,7 @@ class PosterFragment(private val listener: PosterLoader) : Fragment(R.layout.pos
         setMovieListObserver()
     }
 
-    fun setMovieListObserver() {
+    private fun setMovieListObserver() {
         viewModel.movieList.observe(this, { t -> t?.results?.let { adapter.setList(it) } })
     }
 
