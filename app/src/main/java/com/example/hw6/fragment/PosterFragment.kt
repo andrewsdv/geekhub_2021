@@ -16,10 +16,14 @@ import com.example.hw6.databinding.PosterFragmentBinding
 import com.example.hw6.decorator.PosterDecorator
 import com.example.hw6.model.MovieList
 import com.example.hw6.service.MovieService
+import com.example.hw6.viewmodel.MovieViewModel
 import retrofit2.Call
 import retrofit2.Response
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 
 class PosterFragment(private val listener: PosterLoader) : Fragment(R.layout.poster_fragment) {
+    private val viewModel: MovieViewModel by viewModels()
     private val movieService = ApiClient().retrofit.create(MovieService::class.java)
     private var movieList = MovieList(listOf())
     private lateinit var binding: PosterFragmentBinding
@@ -33,25 +37,12 @@ class PosterFragment(private val listener: PosterLoader) : Fragment(R.layout.pos
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        fetchMoviePreviews()
         configRecyclerView()
+        setMovieListObserver()
     }
 
-
-    private fun fetchMoviePreviews() {
-        movieService.groupList().enqueue(object : retrofit2.Callback<MovieList> {
-            override fun onResponse(call: Call<MovieList>, response: Response<MovieList>) {
-                if (response.isSuccessful) {
-                    movieList = response.body() ?: MovieList(listOf())
-                    adapter.setList(movieList.results)
-                }
-            }
-
-            override fun onFailure(call: Call<MovieList>, t: Throwable) {
-                Log.e("Preview", t.toString())
-                return
-            }
-        })
+    fun setMovieListObserver() {
+        viewModel.movieList.observe(this, { t -> t?.results?.let { adapter.setList(it) } })
     }
 
     private fun configRecyclerView() {
