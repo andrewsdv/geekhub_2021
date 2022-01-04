@@ -2,7 +2,6 @@ package com.example.hw6.viewmodel
 
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
-import com.example.hw6.client.ApiClient
 import com.example.hw6.model.MovieCast
 import com.example.hw6.model.MovieDetails
 import com.example.hw6.model.MovieList
@@ -11,10 +10,11 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class MovieRepository {
-    private val movieService = ApiClient().retrofit.create(MovieService::class.java)
+class MovieRepository(
+    private val movieService: MovieService
+) {
 
-    fun fetchMovieList() : MutableLiveData<MovieList> {
+    fun fetchMovieList(): MutableLiveData<MovieList> {
         val list = MutableLiveData<MovieList>()
 
         movieService.groupList().enqueue(object : Callback<MovieList> {
@@ -32,7 +32,7 @@ class MovieRepository {
         return list
     }
 
-    fun fetchMovieDetails(id: Int) : MutableLiveData<MovieDetails> {
+    fun fetchMovieDetails(id: Int): MutableLiveData<MovieDetails> {
         val details = MutableLiveData<MovieDetails>()
 
         movieService.getMovieDetails(id).enqueue(object : Callback<MovieDetails> {
@@ -50,7 +50,7 @@ class MovieRepository {
         return details
     }
 
-    fun fetchActorDetails(id: Int) : MutableLiveData<MovieCast> {
+    fun fetchActorDetails(id: Int): MutableLiveData<MovieCast> {
         val details = MutableLiveData<MovieCast>()
 
         movieService.getMovieCast(id).enqueue(object : Callback<MovieCast> {

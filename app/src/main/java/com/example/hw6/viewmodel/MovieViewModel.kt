@@ -4,12 +4,15 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.hw6.R
+import com.example.hw6.client.ResourceProvider
 import com.example.hw6.model.MovieCast
 import com.example.hw6.model.MovieDetails
 import com.example.hw6.model.MovieList
 
-class MovieViewModel : ViewModel() {
-    private val repository = MovieRepository()
+class MovieViewModel(
+    private val repository: MovieRepository
+) : ViewModel() {
     private var _movieList = MutableLiveData<MovieList>()
 
     val movieList: LiveData<MovieList>
@@ -20,11 +23,11 @@ class MovieViewModel : ViewModel() {
         Log.e("list", _movieList.value.toString())
     }
 
-    fun getMovieDetails(id: Int) : LiveData<MovieDetails> {
+    fun getMovieDetails(id: Int): LiveData<MovieDetails> {
         return repository.fetchMovieDetails(id)
     }
 
-    fun fetchActorDetails(id: Int) : LiveData<MovieCast> {
+    fun fetchActorDetails(id: Int): LiveData<MovieCast> {
         return repository.fetchActorDetails(id)
     }
 }

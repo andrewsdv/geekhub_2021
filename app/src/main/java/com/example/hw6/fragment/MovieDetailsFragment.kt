@@ -1,13 +1,11 @@
 package com.example.hw6.fragment
 
-import android.graphics.Color
 import android.graphics.drawable.LayerDrawable
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.content.res.AppCompatResources
-import androidx.core.graphics.drawable.DrawableCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -20,16 +18,23 @@ import com.example.hw6.decorator.ActorDecorator
 import com.example.hw6.helper.getProgressDrawable
 import com.example.hw6.model.MovieDetails
 import com.example.hw6.model.MoviePreview
+import com.example.hw6.viewmodel.MovieRepository
 import com.example.hw6.viewmodel.MovieViewModel
+import okhttp3.OkHttpClient
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
-class MovieDetailsFragment(private val moviePreview: MoviePreview) : Fragment(R.layout.details_fragment) {
-    private val viewModel: MovieViewModel by viewModels()
+class MovieDetailsFragment(
+    private val moviePreview: MoviePreview
+) : Fragment(R.layout.details_fragment) {
+    private val viewModel by viewModel<MovieViewModel>()
     private lateinit var binding: DetailsFragmentBinding
     private val adapter = ActorAdapter()
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
         binding = DetailsFragmentBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -56,11 +61,13 @@ class MovieDetailsFragment(private val moviePreview: MoviePreview) : Fragment(R.
                 val intRate = (it * 10).toInt()
 
                 val unwrappedDrawable = context?.let { it1 ->
-                    AppCompatResources.getDrawable(it1, R.drawable.progress_circle) } as LayerDrawable?
+                    AppCompatResources.getDrawable(it1, R.drawable.progress_circle)
+                } as LayerDrawable?
 
                 unwrappedDrawable?.let { drawable -> getProgressDrawable(intRate, drawable) }
 
-                percentsTextView.text = String.format(resources.getString(R.string.percents), (intRate.toString()))
+                percentsTextView.text =
+                    String.format(resources.getString(R.string.percents), (intRate.toString()))
                 filmRateProgressBar.progressDrawable = unwrappedDrawable
                 filmRateProgressBar.progress = intRate
             }

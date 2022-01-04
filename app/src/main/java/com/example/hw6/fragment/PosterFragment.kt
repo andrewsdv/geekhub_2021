@@ -13,15 +13,17 @@ import com.example.hw6.adapter.PosterLoader
 import com.example.hw6.databinding.PosterFragmentBinding
 import com.example.hw6.decorator.PosterDecorator
 import com.example.hw6.viewmodel.MovieViewModel
-import androidx.fragment.app.viewModels
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class PosterFragment(private val listener: PosterLoader) : Fragment(R.layout.poster_fragment) {
-    private val viewModel: MovieViewModel by viewModels()
+class PosterFragment(listener: PosterLoader) : Fragment(R.layout.poster_fragment) {
+    private val viewModel: MovieViewModel by viewModel()
     private lateinit var binding: PosterFragmentBinding
     private val adapter = PosterAdapter(listener)
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
         binding = PosterFragmentBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -33,13 +35,17 @@ class PosterFragment(private val listener: PosterLoader) : Fragment(R.layout.pos
     }
 
     private fun setMovieListObserver() {
-        viewModel.movieList.observe(this, { movieList -> movieList?.results?.let { adapter.setList(it) } })
+        viewModel.movieList.observe(
+            this,
+            { movieList -> movieList?.results?.let { adapter.setList(it) } })
     }
 
     private fun configRecyclerView() {
         binding.postersRecyclerView.apply {
-            layoutManager = GridLayoutManager(context,
-                2, RecyclerView.VERTICAL, false)
+            layoutManager = GridLayoutManager(
+                context,
+                2, RecyclerView.VERTICAL, false
+            )
             this.adapter = this@PosterFragment.adapter
             addItemDecoration(PosterDecorator(40))
         }
