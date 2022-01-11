@@ -1,4 +1,4 @@
-package com.example.hw6.viewmodel
+package com.example.hw6.repository
 
 import android.util.Log
 import androidx.lifecycle.MutableLiveData

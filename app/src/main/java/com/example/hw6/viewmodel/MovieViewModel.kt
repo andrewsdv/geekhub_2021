@@ -4,11 +4,10 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.hw6.R
-import com.example.hw6.client.ResourceProvider
 import com.example.hw6.model.MovieCast
 import com.example.hw6.model.MovieDetails
 import com.example.hw6.model.MovieList
+import com.example.hw6.repository.MovieRepository
 
 class MovieViewModel(
     private val repository: MovieRepository
