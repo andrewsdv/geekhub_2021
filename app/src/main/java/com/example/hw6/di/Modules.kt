@@ -5,9 +5,9 @@ import com.example.hw6.BuildConfig
 import com.example.hw6.MovieApplication
 import com.example.hw6.client.ResourceProvider
 import com.example.hw6.database.MoviesDataBase
+import com.example.hw6.repository.MovieRepositoryImpl
 import com.example.hw6.service.MovieInterceptor
 import com.example.hw6.service.MovieService
-import com.example.hw6.repository.MovieRepository
 import com.example.hw6.viewmodel.MovieViewModel
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
@@ -57,7 +57,7 @@ val apiModule = module {
 }
 
 val repositoriesModule = module {
-    single { MovieRepository(get()) }
+    single { MovieRepositoryImpl(get(), get()) }
 }
 
 val viewModelModule = module {
