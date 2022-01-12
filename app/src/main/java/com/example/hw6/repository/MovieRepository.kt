@@ -1,12 +1,12 @@
 package com.example.hw6.repository
 
+import androidx.lifecycle.MutableLiveData
+import com.example.hw6.model.MovieCast
 import com.example.hw6.model.MovieDetails
-import com.example.hw6.model.MoviePreview
-import kotlinx.coroutines.flow.Flow
+import com.example.hw6.model.MovieList
 
 interface MovieRepository {
-    fun moviesFlow(): Flow<List<MoviePreview>>
-    fun movieDetailsFlow(movieId: Int): Flow<MovieDetails?>
-    suspend fun loadMovies(page: Int): List<MoviePreview>
-    suspend fun loadMovieDetails(movieId: Int): MovieDetails?
+    suspend fun fetchMovieList(): MutableLiveData<MovieList>
+    suspend fun fetchMovieDetails(id: Int): MutableLiveData<MovieDetails>
+    suspend fun fetchActorDetails(id: Int): MutableLiveData<MovieCast>
 }

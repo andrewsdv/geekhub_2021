@@ -18,6 +18,9 @@ import com.example.hw6.helper.getProgressDrawable
 import com.example.hw6.model.MovieDetails
 import com.example.hw6.model.MoviePreview
 import com.example.hw6.viewmodel.MovieViewModel
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
@@ -43,8 +46,10 @@ class MovieDetailsFragment(
     }
 
     private fun fetchMovieDetails() {
-        viewModel.getMovieDetails(moviePreview.id).observe(this,
-            { movieDetails -> movieDetails?.let { updateUI(it) } })
+        CoroutineScope(Dispatchers.Main).launch {
+            viewModel.getMovieDetails(moviePreview.id).observe(this@MovieDetailsFragment,
+                { movieDetails -> movieDetails?.let { updateUI(it) } })
+        }
     }
 
     private fun updateUI(details: MovieDetails) {
@@ -93,7 +98,9 @@ class MovieDetailsFragment(
             addItemDecoration(ActorDecorator(20))
         }
 
-        viewModel.fetchActorDetails(moviePreview.id).observe(this,
-            { movieCast -> movieCast?.let { adapter.setList(it.cast) } })
+        CoroutineScope(Dispatchers.Main).launch {
+            viewModel.fetchActorDetails(moviePreview.id).observe(this@MovieDetailsFragment,
+                { movieCast -> movieCast?.let { adapter.setList(it.cast) } })
+        }
     }
 }

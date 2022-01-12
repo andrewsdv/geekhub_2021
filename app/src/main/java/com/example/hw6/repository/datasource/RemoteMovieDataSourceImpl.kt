@@ -14,7 +14,7 @@ class RemoteMovieDataSourceImpl(
     private val movieService: MovieService
 ) : MovieDataSource.Remote {
 
-    override fun fetchMovieList(): MutableLiveData<MovieList> {
+    override fun loadMovieList(): MutableLiveData<MovieList> {
         val list = MutableLiveData<MovieList>()
 
         movieService.groupList().enqueue(object : Callback<MovieList> {
@@ -32,7 +32,7 @@ class RemoteMovieDataSourceImpl(
         return list
     }
 
-    override fun fetchMovieDetails(id: Int): MutableLiveData<MovieDetails> {
+    override fun loadMovieDetails(id: Int): MutableLiveData<MovieDetails> {
         val details = MutableLiveData<MovieDetails>()
 
         movieService.getMovieDetails(id).enqueue(object : Callback<MovieDetails> {
@@ -50,7 +50,7 @@ class RemoteMovieDataSourceImpl(
         return details
     }
 
-    override fun fetchActorDetails(id: Int): MutableLiveData<MovieCast> {
+    override fun loadActorDetails(id: Int): MutableLiveData<MovieCast> {
         val details = MutableLiveData<MovieCast>()
 
         movieService.getMovieCast(id).enqueue(object : Callback<MovieCast> {

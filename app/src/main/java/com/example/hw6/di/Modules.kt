@@ -6,6 +6,8 @@ import com.example.hw6.MovieApplication
 import com.example.hw6.client.ResourceProvider
 import com.example.hw6.database.MoviesDataBase
 import com.example.hw6.repository.MovieRepositoryImpl
+import com.example.hw6.repository.datasource.LocalMovieDataSourceImpl
+import com.example.hw6.repository.datasource.RemoteMovieDataSourceImpl
 import com.example.hw6.service.MovieInterceptor
 import com.example.hw6.service.MovieService
 import com.example.hw6.viewmodel.MovieViewModel
@@ -57,6 +59,8 @@ val apiModule = module {
 }
 
 val repositoriesModule = module {
+    single { LocalMovieDataSourceImpl(get(), get()) }
+    single { RemoteMovieDataSourceImpl(get()) }
     single { MovieRepositoryImpl(get(), get()) }
 }
 

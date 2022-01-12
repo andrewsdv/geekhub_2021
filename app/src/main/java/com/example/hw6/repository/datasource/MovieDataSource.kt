@@ -12,12 +12,12 @@ interface MovieDataSource {
         fun moviesFlow(): Flow<List<MoviePreview>>
         fun movieDetailsFlow(movieId: Int): Flow<MovieDetails?>
         suspend fun addMovies(movies: List<MoviePreview>)
-        suspend fun addMovieDetails(movieDetailsDomain: MovieDetails)
+        suspend fun addMovieDetails(movieDetails: MovieDetails)
     }
 
     interface Remote {
-        fun fetchMovieList(): MutableLiveData<MovieList>
-        fun fetchMovieDetails(id: Int): MutableLiveData<MovieDetails>
-        fun fetchActorDetails(id: Int): MutableLiveData<MovieCast>
+        fun loadMovieList(): MutableLiveData<MovieList>
+        fun loadMovieDetails(id: Int): MutableLiveData<MovieDetails>
+        fun loadActorDetails(id: Int): MutableLiveData<MovieCast>
     }
 }
