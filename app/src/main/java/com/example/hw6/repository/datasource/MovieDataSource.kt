@@ -16,8 +16,8 @@ interface MovieDataSource {
     }
 
     interface Remote {
-        fun loadMovieList(): MutableLiveData<MovieList>
-        fun loadMovieDetails(id: Int): MutableLiveData<MovieDetails>
-        fun loadActorDetails(id: Int): MutableLiveData<MovieCast>
+        suspend fun loadMovieList(): MovieList
+        suspend fun loadMovieDetails(id: Int): MovieDetails?
+        suspend fun loadActorDetails(id: Int): MovieCast?
     }
 }

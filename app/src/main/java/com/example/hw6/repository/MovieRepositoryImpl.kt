@@ -1,54 +1,39 @@
 package com.example.hw6.repository
 
-import androidx.lifecycle.MutableLiveData
+import android.util.Log
 import com.example.hw6.model.MovieCast
 import com.example.hw6.model.MovieDetails
 import com.example.hw6.model.MovieList
-import com.example.hw6.model.MoviePreview
 import com.example.hw6.repository.datasource.LocalMovieDataSourceImpl
 import com.example.hw6.repository.datasource.RemoteMovieDataSourceImpl
-import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.first
 
 class MovieRepositoryImpl(
     private val localMovieDataSource: LocalMovieDataSourceImpl,
     private val remoteMovieDataSource: RemoteMovieDataSourceImpl
 ) : MovieRepository {
-//    override fun moviesFlow(): Flow<MovieList> =
-//        remoteMovieDataSource.moviesFlow()
-//
-//    override fun movieDetailsFlow(movieId: Int): Flow<MovieDetails?> =
-//        localMovieDataSource.movieDetailsFlow(movieId)
-//
-//    override fun actorDetailsFlow(movieId: Int): Flow<MovieCast?> {
-//        localMovieDataSource.actorDetailsFlow(movieId)
-//    }
-//
-//    override suspend fun loadMovies(page: Int): List<MoviePreview> =
-//        remoteMovieDataSource.loadMovies(page).also { movies ->
-//            localMovieDataSource.addMovies(movies)
-//        }
-//
-//    override suspend fun loadMovieDetails(movieId: Int): MovieDetails? =
-//        remoteMovieDataSource.loadMovieDetails(movieId)
-//            ?.also { movieDetails -> localMovieDataSource.addMovieDetails(movieDetails) }
 
-
-    override suspend fun fetchMovieList(): MutableLiveData<MovieList> =
+    override suspend fun fetchMovieList(): MovieList =
         remoteMovieDataSource.loadMovieList().also { movies ->
-            movies.value?.results?.let { localMovieDataSource.addMovies(it) }
+            localMovieDataSource.addMovies(movies.results)
         }
 
-    override suspend fun fetchMovieDetails(id: Int): MutableLiveData<MovieDetails> =
-        remoteMovieDataSource.loadMovieDetails(id)
+    override suspend fun fetchMovieDetails(id: Int): MovieDetails? {
+        val flow = localMovieDataSource.movieDetailsFlow(id)
+        return if (flow.first() == null) remoteMovieDataSource.loadMovieDetails(id)
             .also { movieDetails ->
-                movieDetails.value?.let {
-                    localMovieDataSource.addMovieDetails(
-                        it
-                    )
+                movieDetails?.let {
+                    localMovieDataSource.addMovieDetails(it)
+                    Log.d("GeekHub", "Requested from network. Stored to DB")
                 }
             }
+        else {
+            Log.d("GeekHub", "Taken from DB")
+            flow.first()
+        }
+    }
 
 
-    override suspend fun fetchActorDetails(id: Int): MutableLiveData<MovieCast> =
+    override suspend fun fetchActorDetails(id: Int): MovieCast? =
         remoteMovieDataSource.loadActorDetails(id)
 }

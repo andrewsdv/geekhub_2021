@@ -33,7 +33,7 @@ abstract class MoviePreviewsDao {
     //Flow produces values one at a time (instead of all at once) that can generate values from
     // async operations like network requests, database calls, or other async code. It supports
     // coroutines throughout its API, so you can transform a flow using coroutines as well.
-    @Query("SELECT * FROM movie")
+    @Query("SELECT * FROM movie_previews")
     abstract fun fetchMovies(): Flow<List<MoviePreviewEntity>>
 
 

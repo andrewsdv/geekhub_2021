@@ -4,9 +4,8 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.example.hw6.model.MoviePreview
-import com.squareup.moshi.Json
 
-@Entity(tableName = "movie")
+@Entity(tableName = "movie_previews")
 data class MoviePreviewEntity(
     @PrimaryKey
     @ColumnInfo(name = "id")

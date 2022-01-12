@@ -15,13 +15,13 @@ data class MovieDetailsEntity(
     //
     // Every property that's stored in the database needs to have public visibility, which is
     // the Kotlin default.
-    @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "id")
     val movieId: Int? = null,
-    @ColumnInfo(name = "backdrop_path")
-    val backgroundAddress: String,
+    @PrimaryKey
     @ColumnInfo(name = "original_title")
     val movieName: String,
+    @ColumnInfo(name = "backdrop_path")
+    val backgroundAddress: String,
     @ColumnInfo(name = "overview")
     val overview: String,
     @ColumnInfo(name = "vote_average")
@@ -29,8 +29,9 @@ data class MovieDetailsEntity(
 ) {
     fun toLocal(): MovieDetails {
         return MovieDetails(
-            backgroundAddress,
+            movieId,
             movieName,
+            backgroundAddress,
             overview,
             emptyList(), // Not storing currently
             rate

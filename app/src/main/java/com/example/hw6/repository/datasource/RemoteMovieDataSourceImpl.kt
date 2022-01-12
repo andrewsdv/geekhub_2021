@@ -1,71 +1,21 @@
 package com.example.hw6.repository.datasource
 
-import android.util.Log
-import androidx.lifecycle.MutableLiveData
+import com.example.hw6.ext.check
 import com.example.hw6.model.MovieCast
 import com.example.hw6.model.MovieDetails
 import com.example.hw6.model.MovieList
 import com.example.hw6.service.MovieService
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 
 class RemoteMovieDataSourceImpl(
     private val movieService: MovieService
 ) : MovieDataSource.Remote {
 
-    override fun loadMovieList(): MutableLiveData<MovieList> {
-        val list = MutableLiveData<MovieList>()
+    override suspend fun loadMovieList(): MovieList =
+        MovieList(movieService.groupList().check().body()?.results ?: emptyList())
 
-        movieService.groupList().enqueue(object : Callback<MovieList> {
-            override fun onResponse(call: Call<MovieList>, response: Response<MovieList>) {
-                if (response.isSuccessful) {
-                    list.value = response.body() ?: MovieList(listOf())
-                }
-            }
+    override suspend fun loadMovieDetails(id: Int): MovieDetails? =
+        movieService.getMovieDetails(id).check().body()
 
-            override fun onFailure(call: Call<MovieList>, t: Throwable) {
-                Log.e("Preview", t.toString())
-            }
-        })
-
-        return list
-    }
-
-    override fun loadMovieDetails(id: Int): MutableLiveData<MovieDetails> {
-        val details = MutableLiveData<MovieDetails>()
-
-        movieService.getMovieDetails(id).enqueue(object : Callback<MovieDetails> {
-            override fun onResponse(call: Call<MovieDetails>, response: Response<MovieDetails>) {
-                if (response.isSuccessful) {
-                    response.body()?.let { details.value = it }
-                }
-            }
-
-            override fun onFailure(call: Call<MovieDetails>, t: Throwable) {
-                Log.e("details", t.message.toString())
-            }
-        })
-
-        return details
-    }
-
-    override fun loadActorDetails(id: Int): MutableLiveData<MovieCast> {
-        val details = MutableLiveData<MovieCast>()
-
-        movieService.getMovieCast(id).enqueue(object : Callback<MovieCast> {
-            override fun onResponse(call: Call<MovieCast>, response: Response<MovieCast>) {
-                if (response.isSuccessful) {
-                    response.body()?.let { details.value = it }
-                }
-            }
-
-            override fun onFailure(call: Call<MovieCast>, t: Throwable) {
-                Log.e("Actor", t.message.toString())
-            }
-
-        })
-
-        return details
-    }
+    override suspend fun loadActorDetails(id: Int): MovieCast? =
+        movieService.getMovieCast(id).check().body()
 }

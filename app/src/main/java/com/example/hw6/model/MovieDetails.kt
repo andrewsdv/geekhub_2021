@@ -6,6 +6,8 @@ import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
 data class MovieDetails(
+    @Json(name = "id")
+    val id: Int?,
     @Json(name = "backdrop_path")
     val backgroundAddress: String?,
     @Json(name = "original_title")
@@ -17,7 +19,7 @@ data class MovieDetails(
 ) {
     fun toDbEntity(): MovieDetailsEntity {
         return MovieDetailsEntity(
-            null,
+            id,
             backgroundAddress ?: "",
             movieName,
             overview ?: "",
