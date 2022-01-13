@@ -1,11 +1,15 @@
 package com.example.hw6.di
 
+import androidx.room.Room
 import com.example.hw6.BuildConfig
 import com.example.hw6.MovieApplication
 import com.example.hw6.client.ResourceProvider
+import com.example.hw6.database.MoviesDataBase
+import com.example.hw6.repository.MovieRepositoryImpl
+import com.example.hw6.repository.datasource.LocalMovieDataSourceImpl
+import com.example.hw6.repository.datasource.RemoteMovieDataSourceImpl
 import com.example.hw6.service.MovieInterceptor
 import com.example.hw6.service.MovieService
-import com.example.hw6.viewmodel.MovieRepository
 import com.example.hw6.viewmodel.MovieViewModel
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
@@ -55,9 +59,25 @@ val apiModule = module {
 }
 
 val repositoriesModule = module {
-    single { MovieRepository(get()) }
+    single { LocalMovieDataSourceImpl(get(), get()) }
+    single { RemoteMovieDataSourceImpl(get()) }
+    single { MovieRepositoryImpl(get(), get()) }
 }
 
 val viewModelModule = module {
     viewModel { MovieViewModel(get()) }
+}
+
+private const val DB_NAME = "Movies.db"
+
+val dbModule = module {
+
+    single {
+        Room.databaseBuilder(get(), MoviesDataBase::class.java, DB_NAME)
+            .fallbackToDestructiveMigration()
+            .build()
+    }
+
+    factory { get<MoviesDataBase>().getMovieDetailsDao() }
+    factory { get<MoviesDataBase>().getMoviePreviewsDao() }
 }

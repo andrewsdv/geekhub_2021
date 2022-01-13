@@ -5,5 +5,6 @@ val koinModules = listOf(
     networkModule,
     apiModule,
     repositoriesModule,
-    viewModelModule
+    viewModelModule,
+    dbModule
 )
